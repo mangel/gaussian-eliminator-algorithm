@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="gaussianEliminatorApp">
   <head>
     <meta charset="utf-8">
     <title>My HTML File</title>
@@ -9,10 +9,84 @@
       <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <style type="text/css" media="screen, projection">
+        /**
+        section, header {
+          border-style: dashed;
+        }/**/
+
+        .fix-top-header {
+          margin-top: 1%;
+        }
+
+        tr {
+          border-bottom-style: none;
+        }
+      </style>
   </head>
-  <body>
-    <p>Nothing here {{'yet' + '!'}}</p>
+  <body ng-controller="AppController" class="container">
+    <section class="row">
+      <header class="col s12">
+        <h1>Eliminación Gausiana</h1>
+      </header>
+      <section class="col s2 fix-top-header">
+        <p>Dimensiones de la matriz</p>
+      </section>
+      <section class="col s8">
+          <p class="range-field">
+            <input type="range" ng-model="model.matrixSize" ng-change="resize()" step="1" min="{{ model.params.matrixMinSize }}" max="{{ model.params.matrixMaxSize }}" />
+          </p>
+      </section>
+      <section class="col s2 fix-top-header">
+        <p>{{ model.matrixSize }}</p>
+      </section>
+    </section>
+    <section class="row">
+      <section class="col s2">
+        <button ng-click="compute()" class="waves-effect waves-light btn-large">Calcular</button>
+      </section>
+      <section class="col s4">
+        <button ng-click="loadTest()" class="waves-effect waves-light btn-large">Cargar Matriz de Prueba</button>
+      </section>
+      <section class="col s2">
+        <button ng-click="computeStep()" class="waves-effect waves-light btn-large">Calcular paso</button>
+      </section>
+    </section>
+    </section>
+    <section class="row">
+      <header class="center-align">
+        <h5>Matriz original({{model.matrixSize}}X{{model.matrixSize}})</h5>
+      </header>
+      <table>
+        <tr ng-repeat="row in model.matrix">
+          <td ng-repeat="cell in row track by $index">
+            <input ng-model="cell.value" type="number"/>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="row">
+      <header class="center-align">
+        <h5>Vector solución ({{model.matrixSize}})</h5>
+      </header>
+      <table>
+        <tr ng-repeat="row in model.resultVector">
+          <td ng-repeat="cell in row track by $index">
+            <input ng-model="cell.value" type="number"/>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <section ng-if="model.matrixSize > 4" class="row">
+      <section class="col s2">
+        <button ng-click="compute()" class="waves-effect waves-light btn-large">Calcular</button>
+      </section>
+    </section>
+
     <script src="node_modules/angular/angular.js"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
+    <!--<script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>-->
+    <script src="app/app.js"></script>
   </body>
 </html>
